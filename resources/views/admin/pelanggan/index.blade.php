@@ -23,6 +23,7 @@
                             <th>Tanggal Lahir</th>
                             <th>Email</th>
                             <th>Kartu</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
@@ -35,20 +36,25 @@
                             <th>Tanggal Lahir</th>
                             <th>Email</th>
                             <th>Kartu</th>
+                            <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach ($pelanggan as $p)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $p->kode }}</td>
-                            <td>{{ $p->nama }}</td>
-                            <td>{{ $p->jk }}</td>
-                            <td>{{ $p->tmp_lahir }}</td>
-                            <td>{{ $p->tgl_lahir }}</td>
-                            <td>{{ $p->email }}</td>
-                            <td>{{ $p->kartu->nama }}</td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $p->kode }}</td>
+                                <td>{{ $p->nama }}</td>
+                                <td>{{ $p->jk }}</td>
+                                <td>{{ $p->tmp_lahir }}</td>
+                                <td>{{ $p->tgl_lahir }}</td>
+                                <td>{{ $p->email }}</td>
+                                <td>{{ $p->kartu->nama }}</td>
+                                <td>
+                                    <a href="{{ route('pelanggan.show', $p->id) }}" class="btn btn-sm btn-success"><i
+                                            class="fa-solid fa-eye"></i></a>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

@@ -45,19 +45,20 @@
                     <tbody>
                         @php $no=1 @endphp
                         @foreach ($produk as $p)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $p->kode }}</td>
-                            <td>{{ $p->nama }}</td>
-                            <td>{{ $p->harga_beli }}</td>
-                            <td>{{ $p->harga_jual }}</td>
-                            <td>{{ $p->stok }}</td>
-                            <td>{{ $p->min_stok }}</td>
-                            <td>{{ $p->jenis }}</td>
-                            <td>
-                                <a href="{{ route('produk.show', $p->id )}}" class="btn btn-sm btn-success">Detail</a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $p->kode }}</td>
+                                <td>{{ $p->nama }}</td>
+                                <td>{{ $p->harga_beli }}</td>
+                                <td>{{ $p->harga_jual }}</td>
+                                <td>{{ $p->stok }}</td>
+                                <td>{{ $p->min_stok }}</td>
+                                <td>{{ $p->jenis }}</td>
+                                <td>
+                                    <a href="{{ route('produk.show', $p->id) }}" class="btn btn-sm btn-success"><i
+                                            class="fa-solid fa-eye"></i></a>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
