@@ -105,7 +105,7 @@
                     @empty($pelanggan->foto)
                     <img src="{{ url('admin/image/noPhoto.jpg') }}" alt="...">
                     @else
-                    <img src="{{ url('admin/image/noPhoto.jpg') }}/{{ $pelanggan->foto }}" alt="...">
+                    <img src="{{ url('admin/image') }}/{{ $pelanggan->foto }}" alt="...">
                     @endempty
 
                     <div class="card-body p-1-9 p-xl-5">

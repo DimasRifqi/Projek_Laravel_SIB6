@@ -53,6 +53,12 @@
             </div>
         </div>
         <div class="form-group row">
+            <label for="text4" class="col-4 col-form-label">Foto</label>
+            <div class="col-8">
+                <input id="text4" name="foto" type="file" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
             <label for="select" class="col-4 col-form-label">Pilihan Kartu</label>
             <div class="col-8">
                 <select id="select" name="kartu_id" class="custom-select">

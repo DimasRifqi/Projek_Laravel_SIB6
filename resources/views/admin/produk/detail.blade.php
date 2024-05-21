@@ -485,17 +485,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
         integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
     <br>
+    @foreach ($produk as $p)
     <div class="container">
         <div class="row">
             <div class="col-md-5">
                 <div class="project-info-box mt-0">
                     <h5>PROJECT DETAILS</h5>
-                    <p class="mb-0">Vivamus pellentesque, felis in aliquam ullamcorper, lorem tortor porttitor erat,
-                        hendrerit porta nunc tellus eu lectus. Ut vel imperdiet est. Pellentesque condimentum, dui et
-                        blandit laoreet, quam nisi tincidunt tortor.</p>
+                    <p class="mb-0">
+                        {{ $p->deskripsi }}
+                    </p>
                 </div><!-- / project-info-box -->
 
-                @foreach ($produk as $p)
+
                     <div class="project-info-box">
                         <p><b>Kode:</b> {{ $p->kode }}</p>
                         <p><b>Harga Jual:</b>Rp.{{ number_format($p->harga_jual) }}</p>
@@ -517,12 +518,12 @@
                                     class="fab fa-linkedin-in"></i></a>
                         </p>
                     </div><!-- / project-info-box -->
-                @endforeach
+
             </div><!-- / column -->
 
             <div class="col-md-7">
 
-                @foreach ($produk as $p)
+
                 @empty($p->foto)
                 <img src="{{ url('admin/image/noPhoto.jpg') }}" alt="project-image" class="rounded">
                 @else

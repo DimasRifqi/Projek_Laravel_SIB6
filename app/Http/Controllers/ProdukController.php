@@ -37,6 +37,13 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
+        if(!empty($request->foto)){
+            $fileName = 'foto-'.uniqid().'.'.$request->foto->extension();
+            $request->foto->move(public_path('admin/image'),$fileName);
+        }else{
+            $fileName = '';
+        }
+
         DB::table('produk')->insert([
             'kode'=>$request->kode,
             'nama'=>$request->nama,
@@ -44,6 +51,8 @@ class ProdukController extends Controller
             'harga_beli'=>$request->harga_beli,
             'stok'=>$request->stok,
             'min_stok'=>$request->min_stok,
+            'deskripsi'=>$request->deskripsi,
+            'foto'=>$fileName,
             'jenis_produk_id'=>$request->jenis_produk_id,
         ]);
         return redirect ('admin/produk');
@@ -67,7 +76,9 @@ class ProdukController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $jenis_produk = DB::table('jenis_produk')->get();
+        $produk = DB::table('produk')->where('id',$id)->get();
+        return view('admin.produk.edit',compact('jenis_produk','produk'));
     }
 
     /**
@@ -75,7 +86,35 @@ class ProdukController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $fotoLama = DB::table('produk')->select('foto')->where('id',$id)->get();
+        foreach($fotoLama as$f1){
+            $fotoLama = $f1->foto;
+        }
+
+        if(!empty($request->foto)){
+
+            if(!empty($fotoLama->foto))unlink(public_path('admin/image'.$fotoLama->foto));
+
+            $fileName = 'foto-'.$request->id.'.'.$request->foto->extension();
+
+            $request->foto->move(public_path('admin/image'),$fileName);
+
+        }else{
+            $fileName = $fotoLama;
+        }
+
+        DB::table('produk')->where('id',$id)->update([
+            'kode'=>$request->kode,
+            'nama'=>$request->nama,
+            'harga_jual'=>$request->harga_jual,
+            'harga_beli'=>$request->harga_beli,
+            'stok'=>$request->stok,
+            'min_stok'=>$request->min_stok,
+            'deskripsi'=>$request->deskripsi,
+            'foto'=>$fileName,
+            'jenis_produk_id'=>$request->jenis_produk_id,
+        ]);
+        return redirect ('admin/produk');
     }
 
     /**
