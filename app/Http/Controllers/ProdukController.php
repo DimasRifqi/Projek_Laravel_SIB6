@@ -37,6 +37,29 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+           'kode' => 'required|unique:produk|max:10',
+           'nama' => 'required|max:45',
+           'harga_beli' => 'required|numerik',
+           'harga_jual' => 'required|numerik',
+           'stok' => 'required|numerik',
+           'min_stok' => 'required|numerik',
+           'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+
+        ],
+        [
+            'kode.max' => 'Kode maksimal 10 karakter',
+            'kode.required' => 'Kode wajib diisi',
+            'kode.unique' => 'Kode tidak boleh sama',
+            'nama.required' => 'Nama wajib diisi',
+            'nama.max' => 'Nama maksimal 45 karakter',
+            'foto.max'=> 'Foto maksimal 2 mb',
+            'foto.mimes'=> 'File ekstensi hanya bisa jpg,png,jpeg,gif,svg',
+            'foto.image'=> 'File harus berbentuk image',
+        ]);
+
+
         if(!empty($request->foto)){
             $fileName = 'foto-'.uniqid().'.'.$request->foto->extension();
             $request->foto->move(public_path('admin/image'),$fileName);
@@ -122,6 +145,7 @@ class ProdukController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::table('produk')->where('id', $id)->delete();
+        return redirect('admin/produk');
     }
 }
