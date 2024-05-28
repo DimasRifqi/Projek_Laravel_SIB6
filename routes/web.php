@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisProdukController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProdukController;
@@ -31,9 +32,9 @@ Route::get('/daftar_nilai',function(){
     return view('nilai.daftar_nilai');
 });
 
-Route::get('/dashboard',function(){
-    return view('admin.dashboard');
-});
+// Route::get('/dashboard',function(){
+//     return view('admin.dashboard');
+// });
 
 
 Route::prefix('admin')->group(function(){
@@ -47,5 +48,7 @@ Route::prefix('admin')->group(function(){
     Route::get('/kartu',[KartuController::class,'index']);
     Route::post('kartu/store', [KartuController::class, 'store']);
 
+    // Route::get('/dashboard',[DashboardController::class, 'index']);
+    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
 
 });

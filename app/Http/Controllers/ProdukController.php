@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\JenisProduk;
 use App\Models\Produk;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class ProdukController extends Controller
@@ -39,24 +40,22 @@ class ProdukController extends Controller
     {
 
         $request->validate([
-           'kode' => 'required|unique:produk|max:10',
-           'nama' => 'required|max:45',
-           'harga_beli' => 'required|numerik',
-           'harga_jual' => 'required|numerik',
-           'stok' => 'required|numerik',
-           'min_stok' => 'required|numerik',
-           'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-
-        ],
-        [
+            'kode' => 'required|unique:produk|max:10',
+            'nama' => 'required|max:45',
+            'harga_beli' => 'required|numeric',
+            'harga_jual' => 'required|numeric',
+            'stok' => 'required|numeric',
+            'min_stok' => 'required|numeric',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ], [
             'kode.max' => 'Kode maksimal 10 karakter',
             'kode.required' => 'Kode wajib diisi',
             'kode.unique' => 'Kode tidak boleh sama',
             'nama.required' => 'Nama wajib diisi',
             'nama.max' => 'Nama maksimal 45 karakter',
-            'foto.max'=> 'Foto maksimal 2 mb',
-            'foto.mimes'=> 'File ekstensi hanya bisa jpg,png,jpeg,gif,svg',
-            'foto.image'=> 'File harus berbentuk image',
+            'foto.max' => 'Foto maksimal 2 mb',
+            'foto.mimes' => 'File ekstensi hanya bisa jpg, png, jpeg, gif, svg',
+            'foto.image' => 'File harus berbentuk image',
         ]);
 
 
@@ -78,6 +77,7 @@ class ProdukController extends Controller
             'foto'=>$fileName,
             'jenis_produk_id'=>$request->jenis_produk_id,
         ]);
+        Alert::success('Tambah Produk', 'Berhasil Menambahkan Produk');
         return redirect ('admin/produk');
     }
 
@@ -137,6 +137,7 @@ class ProdukController extends Controller
             'foto'=>$fileName,
             'jenis_produk_id'=>$request->jenis_produk_id,
         ]);
+        Alert::success('Update Produk', 'Berhasil Update Produk');
         return redirect ('admin/produk');
     }
 
