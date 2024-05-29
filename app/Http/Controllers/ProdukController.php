@@ -77,8 +77,8 @@ class ProdukController extends Controller
             'foto'=>$fileName,
             'jenis_produk_id'=>$request->jenis_produk_id,
         ]);
-        Alert::success('Tambah Produk', 'Berhasil Menambahkan Produk');
-        return redirect ('admin/produk');
+        // Alert::success('Tambah Produk', 'Berhasil Menambahkan Produk');
+        return redirect ('admin/produk')->with('success','Berhasil Menambahkan Data');
     }
 
     /**

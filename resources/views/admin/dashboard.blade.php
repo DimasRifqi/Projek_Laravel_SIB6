@@ -24,6 +24,7 @@
                     </div>
                 </div>
             </div>
+            @if (Auth::user()->role != 'manager')
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-success text-white mb-4">
                     <div class="card-body">Data Kartu : {{ $kartu }}</div>
@@ -33,6 +34,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-xl-3 col-md-6">
                 <div class="card bg-danger text-white mb-4">
                     <div class="card-body">Dta Jenis {{ $jenis_produk }}</div>
@@ -42,6 +44,9 @@
                     </div>
                 </div>
             </div>
+
+            @endif
+
         </div>
         <div class="row">
             <div class="col-xl-8">

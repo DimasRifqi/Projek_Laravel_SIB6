@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\JenisProdukController;
-use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\ProdukController;
-use App\Http\Controllers\KartuController;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\KartuController;
+use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\DashboardController;
+
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\JenisProdukController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -35,20 +36,24 @@ Route::get('/daftar_nilai',function(){
 // Route::get('/dashboard',function(){
 //     return view('admin.dashboard');
 // });
+Route::group(['middleware' => ['auth','role:admin|manager,|staff']], function(){
+    Route::prefix('admin')->group(function(){
 
+        Route::get('/jenis_produk',[JenisProdukController::class, 'index']);
+        Route::post('/jenis_produk/store',[JenisProdukController::class, 'store']);
 
-Route::prefix('admin')->group(function(){
+        Route::resource('produk', ProdukController::class);
+        Route::resource('pelanggan',PelangganController::class);
 
-    Route::get('/jenis_produk',[JenisProdukController::class, 'index']);
-    Route::post('/jenis_produk/store',[JenisProdukController::class, 'store']);
+        Route::get('/kartu',[KartuController::class,'index']);
+        Route::post('kartu/store', [KartuController::class, 'store']);
 
-    Route::resource('produk', ProdukController::class);
-    Route::resource('pelanggan',PelangganController::class);
+        // Route::get('/dashboard',[DashboardController::class, 'index']);
+        Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/kartu',[KartuController::class,'index']);
-    Route::post('kartu/store', [KartuController::class, 'store']);
-
-    // Route::get('/dashboard',[DashboardController::class, 'index']);
-    Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
-
+    });
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
