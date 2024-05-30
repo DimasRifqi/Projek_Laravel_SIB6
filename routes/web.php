@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KartuController;
@@ -36,8 +37,12 @@ Route::get('/daftar_nilai',function(){
 // Route::get('/dashboard',function(){
 //     return view('admin.dashboard');
 // });
-Route::group(['middleware' => ['auth','role:admin|manager,|staff']], function(){
+Route::group(['middleware' => ['auth','checkActive', 'role:admin|manager|staff']], function(){
     Route::prefix('admin')->group(function(){
+
+        Route::get('/user',[UserController::class, 'index']);
+        Route::post('/user/{user}/activate',[UserController::class, 'activate'])->name('admin.user.activate');
+        Route::get('/profile',[UserController::class, 'showProfile']);
 
         Route::get('/jenis_produk',[JenisProdukController::class, 'index']);
         Route::post('/jenis_produk/store',[JenisProdukController::class, 'store']);
@@ -50,6 +55,8 @@ Route::group(['middleware' => ['auth','role:admin|manager,|staff']], function(){
 
         // Route::get('/dashboard',[DashboardController::class, 'index']);
         Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
+
+
 
     });
 });
