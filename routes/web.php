@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,9 +15,11 @@ use App\Http\Controllers\JenisProdukController;
 //     return view('welcome');
 // });
 
-Route::get('/',function(){
-    return view('front.home');
-});
+// Route::get('/',function(){
+//     return view('front.home');
+// });
+
+Route::get('/', [BerandaController::class, 'index']);
 
 Route::get('/percobaan_pertama',function(){
     return view('hello');
@@ -43,6 +46,8 @@ Route::group(['middleware' => ['auth','checkActive', 'role:admin|manager|staff']
         Route::get('/user',[UserController::class, 'index']);
         Route::post('/user/{user}/activate',[UserController::class, 'activate'])->name('admin.user.activate');
         Route::get('/profile',[UserController::class, 'showProfile']);
+        ROute::patch('profile/{id}', [UserController::class, 'update']);
+
 
         Route::get('/jenis_produk',[JenisProdukController::class, 'index']);
         Route::post('/jenis_produk/store',[JenisProdukController::class, 'store']);
