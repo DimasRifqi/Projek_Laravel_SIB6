@@ -21,6 +21,8 @@ use App\Http\Controllers\JenisProdukController;
 
 Route::get('/', [BerandaController::class, 'index']);
 
+Route::get('add-to-cart/{id}',[BerandaController::class, 'addToCart'])->name('add.to.cart');
+
 Route::get('/percobaan_pertama',function(){
     return view('hello');
 });
