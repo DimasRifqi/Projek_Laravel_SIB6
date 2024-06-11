@@ -24,6 +24,8 @@ Route::get('/', [BerandaController::class, 'index']);
 Route::get('add-to-cart/{id}',[BerandaController::class, 'addToCart'])->name('add.to.cart');
 ROute::get('/detail_cart/{id}',[BerandaController::class, 'detail']);
 ROute::get('/shop_cart',[BerandaController::class, 'cart']);
+ROute::patch('/update-cart',[BerandaController::class, 'update'])->name('update.cart');
+ROute::delete('/remove-from-cart',[BerandaController::class, 'remove'])->name('remove.from.cart');
 
 Route::get('/percobaan_pertama',function(){
     return view('hello');

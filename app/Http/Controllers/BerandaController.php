@@ -55,8 +55,52 @@ class BerandaController extends Controller
             foreach($cart as $key => $produk){
                 $total += $produk['harga_jual'] * $produk['quantity'];
             }
-            return view ('front.shop_cart', compact('produk', 'cart', 'total'));
+            // Set your Merchant Server Key
+            \Midtrans\Config::$serverKey = config('midtrans.server_key');
+            // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+            \Midtrans\Config::$isProduction = false;
+            // Set sanitization on (default)
+            \Midtrans\Config::$isSanitized = true;
+            // Set 3DS transaction for credit card to true
+            \Midtrans\Config::$is3ds = true;
+
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => rand(),
+                    'gross_amount' => $total,
+                ),
+                'customer_details' => array(
+                    'first_name' => auth()->user()->name,
+                    // 'last_name' => 'pratama',
+                    'email' => auth()->user()->email,
+                    // 'phone' => '08111222333',
+                ),
+            );
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+
+            return view ('front.shop_cart', compact('produk', 'cart', 'total','snapToken'));
         }
+        // session()->forget('cart');
         return view ('front.home', compact('produk'));
+    }
+
+    public function update(Request $request){
+        if($request->id && $request->quantity){
+            $cart = session()->get('cart');
+            $cart[$request->id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
+            session()->flash('success', 'Cart updated');
+        }
+    }
+
+    public function remove(Request $request){
+        $cart = session()->get('cart');
+        if(isset($cart[$request->id])){
+            unset($cart[$request->id]);
+            session()->put('cart',$cart);
+        }
+        session()->with('session','cart delete');
     }
 }
