@@ -43,6 +43,9 @@ Route::get('/daftar_nilai',function(){
     return view('nilai.daftar_nilai');
 });
 
+Route::get('/produkApi', [ProdukController::class, 'produkApi']);
+Route::get('/produkApi/{id}', [ProdukController::class, 'produkApiDetail']);
+
 // Route::get('/dashboard',function(){
 //     return view('admin.dashboard');
 // });
