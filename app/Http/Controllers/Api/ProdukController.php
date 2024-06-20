@@ -37,4 +37,76 @@ class ProdukController extends Controller
             ], 400);
         }
     }
+
+    public function store(Request $request)
+    {
+
+        $validator = validator()->make($request->all(), [
+            'kode' => 'required|unique:produk|max:10',
+            'nama' => 'required|max:45',
+            'harga_beli' => 'required|numeric',
+            'harga_jual' => 'required|numeric',
+            'stok' => 'required|numeric',
+            'min_stok' => 'required|numeric',
+            'deskripsi' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        }
+
+        $produk = Produk::create([
+            'kode'=>$request->kode,
+            'nama'=>$request->nama,
+            'harga_jual'=>$request->harga_jual,
+            'harga_beli'=>$request->harga_beli,
+            'stok'=>$request->stok,
+            'min_stok'=>$request->min_stok,
+            'deskripsi'=>$request->deskripsi,
+            'foto' => $request->foto,
+            'jenis_produk_id'=>$request->jenis_produk_id,
+        ]);
+
+        return new ProdukResource(true, 'Data Produk Berhasil Ditambah', $produk);
+    }
+
+    public function update(Request $request, $id){
+        $validator = validator()->make($request->all(), [
+            'kode' => 'required|max:10',
+            'nama' => 'required|max:45',
+            'harga_beli' => 'required|numeric',
+            'harga_jual' => 'required|numeric',
+            'stok' => 'required|numeric',
+            'min_stok' => 'required|numeric',
+            'deskripsi' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 422);
+        }
+
+        $produk = Produk::whereId($id)->update([
+            'kode'=>$request->kode,
+            'nama'=>$request->nama,
+            'harga_jual'=>$request->harga_jual,
+            'harga_beli'=>$request->harga_beli,
+            'stok'=>$request->stok,
+            'min_stok'=>$request->min_stok,
+            'deskripsi'=>$request->deskripsi,
+            'foto' => $request->foto,
+            'jenis_produk_id'=>$request->jenis_produk_id,
+        ]);
+
+        return new ProdukResource(true, 'Data Produk Berhasil Diubah', $produk);
+    }
+
+    public function destroy($id){
+        $produk = Produk::whereId($id)->first();
+        $produk->delete();
+
+        return new ProdukResource(true, 'Data Produk Berhasil Dihapus', $produk);
+    }
+
 }

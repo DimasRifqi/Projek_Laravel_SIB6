@@ -11,6 +11,8 @@ class Produk extends Model
 
     protected $table = 'produk';
 
+    public $timestamps = false;
+
     protected $fillable = [
       'kode', 'nama', 'harga_beli', 'harga_jual', 'stok',
       'min_stok', 'jenis_produk_id'
