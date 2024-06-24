@@ -12,10 +12,10 @@ use App\Http\Controllers\Api\ProdukController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('apiproduk', [ProdukController::class, 'index']);
 
 Route::middleware(["auth:sanctum"])->group(function(){
 
-    Route::get('apiproduk', [ProdukController::class, 'index']);
     Route::get('apiproduk/{id}', [ProdukController::class, 'show']);
     Route::post('/produk-create', [ProdukController::class, 'store']);
     Route::put('/produk/{id}', [ProdukController::class, 'update']);
